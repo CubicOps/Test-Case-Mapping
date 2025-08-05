@@ -1,0 +1,425 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Cubic | Test Case Report Viewer</title>
+  <style>
+    body {
+      font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+      background-color: #f5f7fa;
+      margin: 0;
+      padding: 0;
+    }
+    header {
+      background-color: #002d72;
+      color: white;
+      padding: 20px 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    header h1 {
+      margin: 0;
+      font-size: 24px;
+    }
+    header img {
+      height: 40px;
+    }
+    main {
+      max-width: 1400px;
+      margin: 40px auto;
+      padding: 0 10px;
+    }
+    .main-content {
+      display: flex;
+      flex-direction: row;
+      gap: 48px;
+      padding: 0 16px;
+      align-items: flex-start;
+    }
+    .left-pane {
+      flex: 0 0 60%;
+      min-width: 0;
+    }
+    .right-pane {
+      flex: 0 0 40%;
+      background: white;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+      max-height: 90vh;
+      overflow-y: auto;
+      position: sticky;
+      top: 30px;
+    }
+    .test-case label {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 12px;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+    .group {
+      margin-bottom: 20px;
+    }
+    .group-header {
+  cursor: pointer;
+      background: #002d72;
+      color: white;
+      padding: 10px;
+      border-radius: 4px 4px 0 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .group-content {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease-out;
+}
+
+.group-content.open {
+  max-height: 1000px; /* allow enough space for full group */
+
+      background: #f7f9fc;
+      padding: 10px 20px;
+      border: 1px solid #ccc;
+      border-top: none;
+      border-radius: 0 0 4px 4px;
+    }
+    .report-block {
+      background: white;
+      border-left: 4px solid #005eb8;
+      padding: 16px 20px;
+      border-radius: 6px;
+      box-shadow: 0 1px 6px rgba(0,0,0,0.05);
+      margin-bottom: 16px;
+    }
+    .report-title {
+      font-size: 24px;
+      font-weight: bold;
+      text-align: center;
+      margin: 24px 0 10px 0;
+    }
+    .report-block h3 {
+      margin-top: 0;
+      color: #002d72;
+    }
+    .report-block ul {
+      margin-left: 20px;
+    }
+    button {
+      padding: 6px 12px;
+      border-radius: 4px;
+      border: none;
+      cursor: pointer;
+      color: white;
+    }
+  </style>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js">
+function renderControls(container) {
+  const controls = document.createElement("div");
+  controls.innerHTML = `
+    <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin: 10px 0;">
+      <button onclick="selectAll(true)" style="padding: 6px 12px; background-color: #007a33; color: white; border: none; border-radius: 4px; cursor: pointer;">Select All</button>
+      <button onclick="selectAll(false)" style="padding: 6px 12px; background-color: #a61c00; color: white; border: none; border-radius: 4px; cursor: pointer;">Deselect All</button>
+      <button onclick="expandAllGroups()" style="padding: 6px 12px; background-color: #005eb8; color: white; border: none; border-radius: 4px; cursor: pointer;">Expand All</button>
+      <button onclick="collapseAllGroups()" style="padding: 6px 12px; background-color: #002d72; color: white; border: none; border-radius: 4px; cursor: pointer;">Collapse All</button>
+    </div>
+    <input id="searchInput" onkeyup="filterTestCases()" placeholder="Search test cases..." style="width: 100%; padding: 10px; margin-bottom: 20px; border-radius: 6px; border: 1px solid #ccc; font-size: 16px;" type="text"/>
+  `;
+  container.before(controls);
+}
+
+
+function selectAll(checked) {
+  const checkboxes = document.querySelectorAll(".test-case input[type='checkbox']");
+  checkboxes.forEach(cb => {
+    if (cb.checked !== checked) {
+      cb.checked = checked;
+      cb.dispatchEvent(new Event('change'));
+    }
+  });
+}
+
+function expandAllGroups() {
+  document.querySelectorAll(".group-content").forEach(el => el.style.display = "block");
+}
+
+function collapseAllGroups() {
+  document.querySelectorAll(".group-content").forEach(el => el.style.display = "none");
+}
+
+function filterTestCases() {
+  const input = document.getElementById("searchInput").value.toLowerCase();
+  const allTestCases = Array.from(document.querySelectorAll(".test-case"));
+  const allGroups = Array.from(document.querySelectorAll(".group"));
+
+  allTestCases.forEach(tc => {
+    const label = tc.innerText.toLowerCase();
+    const visible = label.includes(input);
+    tc.style.display = visible ? "block" : "none";
+  });
+
+  allGroups.forEach(group => {
+    const testCases = group.querySelectorAll(".test-case");
+    let anyVisible = false;
+    testCases.forEach(tc => {
+      if (tc.style.display !== "none") anyVisible = true;
+    });
+
+    const groupContent = group.querySelector(".group-content");
+    group.style.display = anyVisible ? "block" : "none";
+    groupContent.style.display = anyVisible ? "block" : "none";
+  });
+}
+
+
+document.addEventListener("click", function(e) {
+  if (e.target.closest(".toggle-header")) {
+    const header = e.target.closest(".toggle-header");
+    const content = header.nextElementSibling;
+    if (content && content.classList.contains("group-content")) {
+      const isVisible = content.style.display !== "none";
+      content.style.display = isVisible ? "none" : "block";
+    }
+  }
+});
+
+
+document.querySelectorAll(".group-header").forEach(header => {
+  header.addEventListener("click", () => {
+    const content = header.nextElementSibling;
+    if (content && content.classList.contains("group-content")) {
+      content.style.display = content.style.display === "none" ? "block" : "none";
+    }
+  });
+});
+
+</script>
+</head>
+<body>
+  <header>
+    <h1>Cubic | Test Case Report Viewer</h1>
+    <img src="CubicLogo_White.png" alt="Cubic Logo">
+  </header>
+  <main>
+    <div class="main-content">
+      <div class="left-pane">
+        <h2 style="text-align:center;">Select Test Cases</h2>
+        <div id="testCaseList"></div>
+      </div>
+      <div class="right-pane">
+        <div class="report-title">Reports Needed</div>
+        <div style="text-align: center;">
+          <button onclick="exportReports()" style="background-color:#005eb8;">Export Reports</button>
+        </div>
+        <section class="report-output" id="reportOutput"></section>
+      </div>
+    </div>
+  </main>
+  <script>
+    let reportsByTestCase = {};
+
+    async function loadData() {
+      const res = await fetch("test_cases.json");
+      const data = await res.json();
+      const container = document.getElementById("testCaseList");
+      renderControls(container);
+
+      Object.entries(data).forEach(([groupName, testCases]) => {
+        const groupDiv = document.createElement("div");
+        groupDiv.className = "group";
+
+        const header = document.createElement("div");
+        header.className = "group-header";
+        
+    
+    header.innerHTML = `
+      <button class="toggle-button" style="margin-right: 10px; font-size: 16px; background: none; border: none; color: white; cursor: pointer;">−</button>
+      <h3 style="margin: 0; flex: 1; text-align: center;">${groupName}</h3>
+    `;
+    const toggleBtn = header.querySelector(".toggle-button");
+    
+    toggleBtn.addEventListener("click", (e) => {
+      e.stopPropagation();
+      const content = header.nextElementSibling;
+      const isOpen = content.classList.contains("open");
+      content.classList.toggle("open");
+      toggleBtn.textContent = isOpen ? "+" : "−";
+
+      e.stopPropagation();
+      const content = header.nextElementSibling;
+      const isVisible = content.style.display !== "none";
+      content.style.display = isVisible ? "none" : "block";
+      toggleBtn.textContent = isVisible ? "+" : "−";
+    });
+    
+    header.style.cursor = "pointer";
+    header.addEventListener("click", () => {
+      const content = header.nextElementSibling;
+      if (content && content.classList.contains("group-content")) {
+        content.style.display = content.style.display === "none" ? "block" : "none";
+      }
+    });
+    
+        groupDiv.appendChild(header);
+
+        const content = document.createElement("div");
+        content.className = "group-content";
+
+        testCases.forEach(tc => {
+          const div = document.createElement("div");
+          div.className = "test-case";
+          const label = document.createElement("label");
+          const input = document.createElement("input");
+          input.type = "checkbox";
+          input.onchange = () => toggleReport(input, tc.id, tc.label);
+          label.appendChild(input);
+          label.appendChild(document.createTextNode(tc.label));
+          div.appendChild(label);
+          content.appendChild(div);
+          reportsByTestCase[tc.id] = tc.reports;
+        });
+
+        groupDiv.appendChild(content);
+        container.appendChild(groupDiv);
+      });
+    }
+
+    function toggleReport(checkbox, testCaseId, testCaseName) {
+      const outputDiv = document.getElementById("reportOutput");
+      const existing = document.getElementById("output-" + testCaseId);
+
+      if (checkbox.checked) {
+        const block = document.createElement("div");
+        block.className = "report-block";
+        block.id = "output-" + testCaseId;
+
+        const header = document.createElement("h3");
+        header.innerText = testCaseName;
+        block.appendChild(header);
+
+        const ul = document.createElement("ul");
+        reportsByTestCase[testCaseId].forEach(report => {
+          const li = document.createElement("li");
+          li.innerText = report;
+          ul.appendChild(li);
+        });
+
+        block.appendChild(ul);
+        outputDiv.appendChild(block);
+      } else {
+        if (existing) {
+          outputDiv.removeChild(existing);
+        }
+      }
+    }
+
+    function exportReports() {
+      const blocks = document.querySelectorAll(".report-block");
+      let data = [["Test Case", "Report Name", "Report ID"]];
+
+      blocks.forEach(block => {
+        const testCase = block.querySelector("h3").innerText;
+        const reports = Array.from(block.querySelectorAll("li")).map(li => li.innerText);
+        reports.forEach(report => {
+          const match = report.match(/^([A-Z]{2}\d{3})\s*-\s*(.+)$/);
+          const reportId = match ? match[1] : "";
+          const reportName = match ? match[0] : report;
+          data.push([testCase, reportName, reportId]);
+        });
+      });
+
+      const worksheet = XLSX.utils.aoa_to_sheet(data);
+      const workbook = XLSX.utils.book_new();
+      XLSX.utils.book_append_sheet(workbook, worksheet, "Test Plan");
+      XLSX.writeFile(workbook, "test_plan.xlsx");
+    }
+
+    window.onload = loadData;
+  
+function renderControls(container) {
+  const controls = document.createElement("div");
+  controls.innerHTML = `
+    <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin: 10px 0;">
+      <button onclick="selectAll(true)" style="padding: 6px 12px; background-color: #007a33; color: white; border: none; border-radius: 4px; cursor: pointer;">Select All</button>
+      <button onclick="selectAll(false)" style="padding: 6px 12px; background-color: #a61c00; color: white; border: none; border-radius: 4px; cursor: pointer;">Deselect All</button>
+      <button onclick="expandAllGroups()" style="padding: 6px 12px; background-color: #005eb8; color: white; border: none; border-radius: 4px; cursor: pointer;">Expand All</button>
+      <button onclick="collapseAllGroups()" style="padding: 6px 12px; background-color: #002d72; color: white; border: none; border-radius: 4px; cursor: pointer;">Collapse All</button>
+    </div>
+    <input id="searchInput" onkeyup="filterTestCases()" placeholder="Search test cases..." style="width: 100%; padding: 10px; margin-bottom: 20px; border-radius: 6px; border: 1px solid #ccc; font-size: 16px;" type="text"/>
+  `;
+  container.before(controls);
+}
+
+
+function selectAll(checked) {
+  const checkboxes = document.querySelectorAll(".test-case input[type='checkbox']");
+  checkboxes.forEach(cb => {
+    if (cb.checked !== checked) {
+      cb.checked = checked;
+      cb.dispatchEvent(new Event('change'));
+    }
+  });
+}
+
+function expandAllGroups() {
+  document.querySelectorAll(".group-content").forEach(el => el.style.display = "block");
+}
+
+function collapseAllGroups() {
+  document.querySelectorAll(".group-content").forEach(el => el.style.display = "none");
+}
+
+function filterTestCases() {
+  const input = document.getElementById("searchInput").value.toLowerCase();
+  const allTestCases = Array.from(document.querySelectorAll(".test-case"));
+  const allGroups = Array.from(document.querySelectorAll(".group"));
+
+  allTestCases.forEach(tc => {
+    const label = tc.innerText.toLowerCase();
+    const visible = label.includes(input);
+    tc.style.display = visible ? "block" : "none";
+  });
+
+  allGroups.forEach(group => {
+    const testCases = group.querySelectorAll(".test-case");
+    let anyVisible = false;
+    testCases.forEach(tc => {
+      if (tc.style.display !== "none") anyVisible = true;
+    });
+
+    const groupContent = group.querySelector(".group-content");
+    group.style.display = anyVisible ? "block" : "none";
+    groupContent.style.display = anyVisible ? "block" : "none";
+  });
+}
+
+
+document.addEventListener("click", function(e) {
+  if (e.target.closest(".toggle-header")) {
+    const header = e.target.closest(".toggle-header");
+    const content = header.nextElementSibling;
+    if (content && content.classList.contains("group-content")) {
+      const isVisible = content.style.display !== "none";
+      content.style.display = isVisible ? "none" : "block";
+    }
+  }
+});
+
+
+document.querySelectorAll(".group-header").forEach(header => {
+  header.addEventListener("click", () => {
+    const content = header.nextElementSibling;
+    if (content && content.classList.contains("group-content")) {
+      content.style.display = content.style.display === "none" ? "block" : "none";
+    }
+  });
+});
+
+</script>
+</body>
+</html>
