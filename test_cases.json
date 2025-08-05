@@ -1,0 +1,575 @@
+{
+  "Card/Pass Purchases": [
+    {
+      "id": "tc1",
+      "label": "Purchase a new card",
+      "reports": [
+        "WO100 - Patron Order by Product",
+        "WO110 - Patron Order Details"
+      ]
+    },
+    {
+      "id": "tc2",
+      "label": "Purchase a new pass",
+      "reports": [
+        "WO100 - Patron Order by Product",
+        "WO110 - Patron Order Details"
+      ]
+    },
+    {
+      "id": "tc3",
+      "label": "Purchase a card through a retail device",
+      "reports": [
+        "WA091 - Retailer Cards Sold"
+      ]
+    }
+  ],
+  "Transactions": [
+    {
+      "id": "tc4",
+      "label": "Perform cash transactions",
+      "reports": [
+        "WA140 - Cash Transaction Details"
+      ]
+    },
+    {
+      "id": "tc5",
+      "label": "Perform cash transactions/cashbox related activities at a TVM",
+      "reports": [
+        "CR090 - TVM Cash Balance Report",
+        "WE200 - Cashbox Inventory",
+        "WR040 - Bill Cashbox Removal Removal and Insertion Details",
+        "WR050 - Coin Container Removal and Insertion Details",
+        "WR070 - Cashbox Reconciliation by Cashbox",
+        "WR071 - TVM Cash Variance",
+        "WR075 - Cashbox Reconciliation by Piece Count"
+      ]
+    },
+    {
+      "id": "tc6",
+      "label": "Perform non-cash transactions",
+      "reports": [
+        "WA145 - Non-Cash Transaction Details"
+      ]
+    },
+    {
+      "id": "tc7",
+      "label": "Perform credit/debit transactions",
+      "reports": [
+        "WS125 - Sales Summary by Product User",
+        "WS180 - Debit/Credit Summary"
+      ]
+    },
+    {
+      "id": "tc8",
+      "label": "Perform credit/debit transactions at a TVM",
+      "reports": [
+        "CS200 - Credit Receipt - FMVD",
+        "WS180 - Debit/Credit Summary"
+      ]
+    },
+    {
+      "id": "tc9",
+      "label": "Perform mobile payment transactions",
+      "reports": [
+        "WS122 - Mobile Payment Sales Summary"
+      ]
+    },
+    {
+      "id": "tc10",
+      "label": "Perform transactions through a retail device",
+      "reports": [
+        "WS500 - Retail Sales Payment Summary"
+      ]
+    },
+    {
+      "id": "tc11",
+      "label": "Perform transactions on a transit account",
+      "reports": [
+        "WA100 - Transit Card/Account Transaction History",
+        "WA101 - Multi-card Transaction History",
+        "WA103 - Journal Entry History",
+        "WA110 - Device Transaction History"
+      ]
+    },
+    {
+      "id": "tc12",
+      "label": "Load transit value",
+      "reports": [
+        "WO100 - Patron Order by Product",
+        "WO110 - Patron Order Details"
+      ]
+    },
+    {
+      "id": "tc13",
+      "label": "Perform transaction which cause a transit account to go to negative balance",
+      "reports": [
+        "WR223 - Transit Accounts with a Negative Balance"
+      ]
+    },
+    {
+      "id": "tc14",
+      "label": "Perform transactions which cause an already negative account to go lower",
+      "reports": [
+        "WR223 - Transit Accounts with a Negative Balance"
+      ]
+    },
+    {
+      "id": "tc15",
+      "label": "Perform transactions which bring a negative account closer to zero",
+      "reports": [
+        "WR223 - Transit Accounts with a Negative Balance"
+      ]
+    },
+    {
+      "id": "tc16",
+      "label": "Perform transactions which bring a negative account above zero",
+      "reports": [
+        "WR223 - Transit Accounts with a Negative Balance"
+      ]
+    },
+    {
+      "id": "tc17",
+      "label": "Perform actions involving passes which increase/decrease liability on accounts",
+      "reports": [
+        "WR217 - Account Pass Liability"
+      ]
+    }
+  ],
+  "Liability": [
+    {
+      "id": "tc18",
+      "label": "Perform actions which increase/decrease transit value on accounts",
+      "reports": [
+        "WR211 - Account Transit Liability"
+      ]
+    },
+    {
+      "id": "tc19",
+      "label": "Perform actions which increase/decrease benefit value on accounts",
+      "reports": [
+        "WR213 - Account Benefit Value Liability"
+      ]
+    },
+    {
+      "id": "tc20",
+      "label": "Perform actions which increase/decrease deposit value on accounts",
+      "reports": [
+        "WR215 - Account Deposit Value Liability"
+      ]
+    },
+    {
+      "id": "tc21",
+      "label": "Use a Ventra ticket at a bus or rail validator",
+      "reports": [
+        "WR117 - CSC Pass Liability - Ventra Tickets (LU)"
+      ]
+    },
+    {
+      "id": "tc22",
+      "label": "Buy a Ventra ticket with passes",
+      "reports": [
+        "WR117 - CSC Pass Liability - Ventra Tickets (LU)"
+      ]
+    }
+  ],
+  "Taps": [
+    {
+      "id": "tc23",
+      "label": "Perform taps for rides for some of the media ordered through the institution website",
+      "reports": [
+        "WO260 - Media Order Usage Summary",
+        "WO261 - Media Order Usage Details"
+      ]
+    },
+    {
+      "id": "tc24",
+      "label": "Perform taps with cards that have been hotlisted or negative/risk listed",
+      "reports": [
+        "WA041 - Hot Listed Transit Card Activity"
+      ]
+    },
+    {
+      "id": "tc25",
+      "label": "Perform taps on card reader device",
+      "reports": [
+        "WM080 - Device Tap Errors"
+      ]
+    },
+    {
+      "id": "tc26",
+      "label": "Perform initial tap (first tap of day) on bus validator",
+      "reports": [
+        "WA300 - Bus First Tap Summary"
+      ]
+    },
+    {
+      "id": "tc27",
+      "label": "Perform taps using GATE and BUS",
+      "reports": [
+        "WA312 - Device Tap Speed"
+      ]
+    },
+    {
+      "id": "tc28",
+      "label": "Perform use taps on bus validators",
+      "reports": [
+        "WP100 - Patronage Summary",
+        "WP105 - Patronage Summary - Ride Counts",
+        "WP111 - Bus Patronage Summary",
+        "WP115 - Monthly Patronage Summary",
+        "WP120 - Ridership by Fare Type",
+        "WP150 - Use Transaction Financial Summary",
+        "WP170 - Trip Distribution",
+        "WP400 - Bus Route Activity",
+        "WP570 - Patronage Details",
+        "WA160 - Use Transaction Details"
+      ]
+    },
+    {
+      "id": "tc29",
+      "label": "Perform use taps on rail validators",
+      "reports": [
+        "WP100 - Patronage Summary",
+        "WP105 - Patronage Summary - Ride Counts",
+        "WP115 - Monthly Patronage Summary",
+        "WP120 - Ridership by Fare Type",
+        "WP150 - Use Transaction Financial Summary",
+        "WP170 - Trip Distribution",
+        "WP570 - Patronage Details",
+        "WA160 - Use Transaction Details"
+      ]
+    }
+  ],
+  "Reports/Summaries": [
+    {
+      "id": "tc30",
+      "label": "Summarize daily cash balance for TVM/Device",
+      "reports": [
+        "WR100 - Daily Cash Balance Summary - FMVD",
+        "WR105 - Daily Cash Balance Summary by Device"
+      ]
+    },
+    {
+      "id": "tc32",
+      "label": "Retrieve summary of transit accounts with negative value",
+      "reports": [
+        "CR224 - ABP Transit Account Negative Balance Summary"
+      ]
+    },
+    {
+      "id": "tc33",
+      "label": "Retrieve report on aged accounts",
+      "reports": [
+        "CR220 - Aging Account Liability"
+      ]
+    }
+  ],
+  "Fraud": [
+    {
+      "id": "tc34",
+      "label": "Perform fraud actions",
+      "reports": [
+        "WA115 - Location Summary Fraud",
+        "WA116 - Transaction Fraud Details"
+      ]
+    },
+    {
+      "id": "tc35",
+      "label": "Trigger fraud alert events",
+      "reports": [
+        "WA127 - Fraud Alert Summary",
+        "WA128 - Fraud Alert Detail",
+        "WA129 - Fraud Alert Action Detail"
+      ]
+    }
+  ],
+  "Orders": [
+    {
+      "id": "tc36",
+      "label": "Submit distributor card orders, such as bulk institution orders through the website interface",
+      "reports": [
+        "CA121 - Distributor CSC Orders Accounts Receivable",
+        "WA125 - BOE Distributor Orders",
+        "WA126 - Serial Numbers by Order"
+      ]
+    },
+    {
+      "id": "tc37",
+      "label": "Perform bulk orders of transit cards",
+      "reports": [
+        "WO200 - Bulk Card Order Summary",
+        "WO205 - Bulk Card Order by Card Type"
+      ]
+    },
+    {
+      "id": "tc38",
+      "label": "Perform a bulk order through the institution website",
+      "reports": [
+        "WO255 - Media Order Summary",
+        "WO256 - Media Order Details",
+        "WO257 - Media Order Line Item Details",
+        "WO265 - Media Order Payment Details"
+      ]
+    }
+  ],
+  "Expirations": [
+    {
+      "id": "tc39",
+      "label": "Allow an unregistered Ventra Card containing deposit value to exceed the registration time limit (90 days)",
+      "reports": [
+        "WA150 - Transit Account Card Deposit Conversion"
+      ]
+    },
+    {
+      "id": "tc40",
+      "label": "Terminate transit account that has unused passes (escheatment)",
+      "reports": [
+        "WR150 - Account Liability Adjustments"
+      ]
+    },
+    {
+      "id": "tc41",
+      "label": "Abandon remaining rides on a Ventra ticket (escheatment)",
+      "reports": [
+        "WR117 - CSC Pass Liability - Ventra Tickets (LU)"
+      ]
+    },
+    {
+      "id": "tc42",
+      "label": "Allow a Ventra ticket to expire",
+      "reports": [
+        "WR117 - CSC Pass Liability - Ventra Tickets (LU)"
+      ]
+    },
+    {
+      "id": "tc43",
+      "label": "Allow used pass products to expire",
+      "reports": [
+        "WA182 - Expired Passes"
+      ]
+    }
+  ],
+  "Refunds": [
+    {
+      "id": "tc44",
+      "label": "Refund pass",
+      "reports": [
+        "WO100 - Patron Order by Product",
+        "WO110 - Patron Order Details"
+      ]
+    },
+    {
+      "id": "tc45",
+      "label": "Refund transit value",
+      "reports": [
+        "WO432 - Refund Orders - MSD CRM"
+      ]
+    },
+    {
+      "id": "tc46",
+      "label": "Void trip",
+      "reports": [
+        "WO432 - Refund Orders - MSD CRM",
+        "WP050 - Patronage details"
+      ]
+    },
+    {
+      "id": "tc47",
+      "label": "Perform chargebacks",
+      "reports": [
+        "WA170 - Chargeback Processing Performance"
+      ]
+    }
+  ],
+  "Adjustments": [
+    {
+      "id": "tc48",
+      "label": "Perform adjustments to a transit account",
+      "reports": [
+        "WO150 - CSR Patron Adjustments"
+      ]
+    },
+    {
+      "id": "tc49",
+      "label": "Adjust trip fair",
+      "reports": [
+        "WO430 - Refunds",
+        "WO432 - Refund Orders - MSD CRM",
+        "WP050 - Patronage details"
+      ]
+    },
+    {
+      "id": "tc50",
+      "label": "Adjust transit value",
+      "reports": [
+        "WO100 - Patron Order by Product",
+        "WO110 - Patron Order Details"
+      ]
+    },
+    {
+      "id": "tc51",
+      "label": "Remove pass",
+      "reports": [
+        "WO100 - Patron Order by Product",
+        "WO110 - Patron Order Details"
+      ]
+    },
+    {
+      "id": "tc52",
+      "label": "Replace card (including card fee)",
+      "reports": [
+        "WO100 - Patron Order by Product",
+        "WO110 - Patron Order Details"
+      ]
+    },
+    {
+      "id": "tc53",
+      "label": "Trigger a card adjustment against a Ventra Ticket",
+      "reports": [
+        "CR120 - Card Adjustments"
+      ]
+    }
+  ],
+  "Booked Travel": [
+    {
+      "id": "tc54",
+      "label": "Perform booked travel events using paratransit APIs",
+      "reports": [
+        "WR140 - Booked Travel Transaction Detail"
+      ]
+    },
+    {
+      "id": "tc55",
+      "label": "Book travel event using paratransit APIs",
+      "reports": [
+        "WR140 - Booked Travel Transaction Detail"
+      ]
+    },
+    {
+      "id": "tc56",
+      "label": "Create booked travel reservations and trips",
+      "reports": [
+        "WP080 - Booked Travel Performance"
+      ]
+    }
+  ],
+  "Hotlist": [
+    {
+      "id": "tc57",
+      "label": "Perform hotlisted transactions",
+      "reports": [
+        "WA042 - Hotlist Summary"
+      ]
+    },
+    {
+      "id": "tc58",
+      "label": "Add/remove cards from hotlist",
+      "reports": [
+        "WA109 - Current Contactless Smart Card (CSC) State Summary"
+      ]
+    }
+  ],
+  "Device Configuration": [
+    {
+      "id": "tc60",
+      "label": "Navigate to device or card search in NCS",
+      "reports": [
+        "CM120 - Database Audit Trail"
+      ]
+    },
+    {
+      "id": "tc61",
+      "label": "View device details in NCS",
+      "reports": [
+        "CM120 - Database Audit Trail"
+      ]
+    },
+    {
+      "id": "tc62",
+      "label": "Add cards to hotlist in NCS",
+      "reports": [
+        "CA040 - Transit Cards Pending Hotlist Delivery - Limited Use"
+      ]
+    },
+    {
+      "id": "tc65",
+      "label": "Enter and exit maintenance mode on devices",
+      "reports": [
+        "WM070 - Device Maintenance Time"
+      ]
+    },
+    {
+      "id": "tc66",
+      "label": "Change device configuration (operator/facility/bus ID/position)",
+      "reports": [
+        "WA030 - Device Location History"
+      ]
+    }
+  ],
+  "Account Management": [
+    {
+      "id": "tc67",
+      "label": "Setup/trigger threshold autoload",
+      "reports": [
+        "WO100 - Patron Order by Product",
+        "WO110 - Patron Order Details"
+      ]
+    },
+    {
+      "id": "tc68",
+      "label": "Add/remove SFP to a student account",
+      "reports": [
+        "WA071 - Special Program Audit Summary"
+      ]
+    },
+    {
+      "id": "tc69",
+      "label": "Perform activations, registrations, and suspension of accounts",
+      "reports": [
+        "WA120 - Account Status by Source"
+      ]
+    },
+    {
+      "id": "tc70",
+      "label": "Migrate legacy accounts to the NextInfo system",
+      "reports": [
+        "WO300 - Migrated Legacy Accounts"
+      ]
+    },
+    {
+      "id": "tc71",
+      "label": "Register a new card to a user account",
+      "reports": [
+        "WA150 - Transit Account Card Deposit Conversion"
+      ]
+    }
+  ],
+  "B2B/Institution": [
+    {
+      "id": "tc72",
+      "label": "Define a sales institution in the system environment, or retrieve the details for an existing institution",
+      "reports": [
+        "WO250 - IWS Institution Details"
+      ]
+    }
+  ],
+  "System Configuration": [
+    {
+      "id": "tc73",
+      "label": "Modify the number of CSC cards associated with an operator",
+      "reports": [
+        "WA109 - Current Contactless Smart Card (CSC) State Summary"
+      ]
+    }
+  ],
+  "Event Testing": [
+    {
+      "id": "tc74",
+      "label": "Trigger event messages from devices",
+      "reports": [
+        "WM010 - Device Event History"
+      ]
+    }
+  ]
+}
